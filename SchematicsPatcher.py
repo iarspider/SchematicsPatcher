@@ -4,7 +4,7 @@ import os
 import shutil
 
 import pymclevel
-from pymclevel import mclevel
+from pymclevel import mclevel, nbt
 
 # :type: logging.Logger
 logger = None
@@ -54,7 +54,7 @@ def load_idmap(world):
     # global idMap
     id_map = {}
 
-    for itemData in world.root_tag['FML']['ItemData']:
+    for itemData in world['FML']['ItemData']:
         if ord(itemData['K'].value[0]) > 2:
             logger.warn('Skipped itemData key %s (%d)', itemData['K'].value, itemData['V'].value)
             continue
@@ -208,26 +208,26 @@ def main():
 
     setup_logging()
     logger.info("Loading source world from file {0}".format(args.source))
-    source_world = mclevel.fromFile(args.source)
+    # source_world = mclevel.fromFile(args.source)
+    source_world = nbt.load(args.source)
     logger.info("Mapping names to IDs")
     source_idmap = load_idmap(source_world)
-    source_world.close()
+    # source_world.close()
 
-    qqq = open("source.map", "w")
-    import pprint
-    qqq.write(pprint.pformat(source_idmap))
-    qqq.close()
+    # qqq = open("source.map", "w")
+    # import pprint
+    # qqq.write(pprint.pformat(source_idmap))
+    # qqq.close()
 
     logger.info("Loading target world from file {0}".format(args.target))
-    target_world = mclevel.fromFile(args.target)
+    target_world = nbt.load(args.target)
     logger.info("Mapping names to IDs")
     target_idmap = load_idmap(target_world)
-    target_world.close()
 
-    qqq = open("target.map", "w")
-    import pprint
-    qqq.write(pprint.pformat(target_idmap))
-    qqq.close()
+    # qqq = open("target.map", "w")
+    # import pprint
+    # qqq.write(pprint.pformat(target_idmap))
+    # qqq.close()
 
     logger.info("Building remapper")
     remapper = create_remapper(source_idmap, target_idmap)
