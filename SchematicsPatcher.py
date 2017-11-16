@@ -196,20 +196,15 @@ def mark_changed(schematic):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-s", "--source", help="Path to level.dat of world from which the schematics file was created",
-                        dest="source", action="store",
-                        default="/home/razumov/MultiMC/instances/BabyTigerServ/minecraft/saves/New World/level.dat")
+                        dest="source", action="store")
     parser.add_argument("-t", "--target",
                         help="Path to level.dat of world to which the schematics file will be imported",
-                        dest="target", action="store",
-                        default="/home/razumov/MultiMC/instances/BabyTigerServ/minecraft/saves/Server World/level.dat")
+                        dest="target", action="store")
     parser.add_argument("-B", "--no-backup", help="Don't backup schematics file before patching", dest="backup",
                         action="store_false")
     parser.add_argument("schematic", help="Path to schematics file to patch")
 
     args = parser.parse_args()
-
-    # DEBUG
-    args.schematic = "/home/razumov/.wine/drive_c/users/razumov/Documents/MCEdit/Schematics/Tower.schematic"
 
     setup_logging()
     logger.info("Loading source world from file {0}".format(args.source))
